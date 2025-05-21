@@ -8,7 +8,7 @@ Base = declarative_base()
 
 class Car(Base):
     __tablename__ = "cars"
-    __table_args__ = (UniqueConstraint("url", name="url_uc"))
+    __table_args__ = (UniqueConstraint("url", name="url_uc"),)
 
     id = Column(Integer, primary_key=True, index=True)
     url = Column(String, nullable=False)
