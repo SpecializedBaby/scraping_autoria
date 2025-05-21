@@ -3,6 +3,7 @@ python-dotenv==1.1.0
 httpx==0.28.1
 selectolax==0.3.29
 APScheduler==3.11.0
+pydantic==2.11.4
 
 # Database
 SQLAlchemy==2.0.41
