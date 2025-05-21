@@ -7,6 +7,8 @@ from typing import List
 
 from selectolax.parser import HTMLParser
 
+from src.database.crud import get_car_by_url
+
 logger = logging.getLogger(__name__)
 
 
@@ -26,8 +28,23 @@ class AutoRiaScraper:
             logger.info(f"Scraping {url}")
 
             """Try to get list of cars """
+            try:
+                cars = await self.get_list_items(url)
+                if not cars:
+                    logger.info("No more cars. Script STOP.")
+                    break
 
+                for car_url in cars:
+                    if await get_car_by_url(car_url):
+                        logger.debug(f"Skip duplicate car {car_url}")
+                        continue
 
+                page_num += 1
+                await asyncio.sleep(1)
+
+            except Exception as e:
+                logger.error(f"Error scraping page {page_num}: {str(e)}")
+                break
 
     async def get_list_items(self, url: str) -> List[str]:
         """Parsing cars from this url"""
