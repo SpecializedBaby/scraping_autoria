@@ -1,11 +1,13 @@
 import asyncio
 import logging
+from alembic.config import Config
+from alembic import command
+
 from src.database.session import engine
 from src.database.models import Base
 from src.scheduler import AutoRiaScheduler
 from src.config import settings
-from alembic.config import Config
-from alembic import command
+
 
 # Configure logging
 logging.basicConfig(
@@ -36,10 +38,7 @@ async def run_migrations():
 async def main():
     """Main application entry point"""
     try:
-        logger.info("Starting AutoRia Scraper Service")
-
-        # 1. Run migrations
-        await run_migrations()
+        logger.info("Starting AutoRia Scraper Service 2.0")
 
         # 2. Initialize database (extra safety)
         await init_db()

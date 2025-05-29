@@ -3,7 +3,8 @@ import subprocess
 from datetime import datetime
 from pathlib import Path
 import logging
-from .config import settings
+
+from src.config import settings
 
 logger = logging.getLogger(__name__)
 

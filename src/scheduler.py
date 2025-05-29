@@ -1,10 +1,12 @@
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from apscheduler.triggers.cron import CronTrigger
-from src.scraper.scraper import AutoRiaScraper
-from dumper import dump_database
 import httpx
 import logging
 from datetime import datetime
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
+
+from src.scraper.scraper import AutoRiaScraper
+from src.dumper import dump_database
+
 
 logger = logging.getLogger(__name__)
 

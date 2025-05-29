@@ -1,15 +1,14 @@
-FROM python:3.11-slim
+FROM python:3.11-alpine3.21
+LABEL maintainer="specialized8393@gmail.com"
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
-    gcc \
-    python3-dev \
-    libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+ENV TZ=UTC
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 
 COPY . .
 
