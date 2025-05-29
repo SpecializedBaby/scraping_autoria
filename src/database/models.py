@@ -1,6 +1,6 @@
+from datetime import datetime
 from sqlalchemy import Column, Integer, String, DateTime, UniqueConstraint
 from sqlalchemy.ext.declarative import declarative_base
-from datetime import datetime
 
 
 Base = declarative_base()
@@ -16,7 +16,7 @@ class Car(Base):
     price_usd = Column(Integer)
     odometer = Column(Integer)
     username = Column(String)
-    phone_number = Column(String)  # пример структуры: +38063……..
+    phone_number = Column(String)
     image_url = Column(String)
     car_number = Column(String)
     car_vin = Column(String)

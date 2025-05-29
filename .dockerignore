@@ -1,0 +1,38 @@
+# Python кеш
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# IDE та редактори
+.vscode/
+.idea/
+*.swp
+
+# Git
+.git/
+.gitignore
+
+# Секрети
+.env
+*.env
+
+# Docker
+Dockerfile
+docker-compose.yml
+
+# Системне
+*.log
+*.sqlite3
+.dockerignore
+
+# Міграції кеш
+alembic/__pycache__/
+migrations/__pycache__/
+
+# Dumps
+dumps/
+
+# Тестові/локальні файли
+*.db

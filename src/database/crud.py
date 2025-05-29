@@ -1,6 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from .models import Car
+
+from src.database.models import Car
 
 
 async def get_car_by_url(db: AsyncSession, url: str):

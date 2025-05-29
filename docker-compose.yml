@@ -1,8 +1,8 @@
-version: '3.8'
+version: '3.9'
 
 services:
   db:
-    image: postgres:13
+    image: postgres:15-alpine3.20
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -12,27 +12,26 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
       timeout: 5s
       retries: 5
 
   scraper:
-    build: .
+    build:
+      context: .
     depends_on:
       db:
         condition: service_healthy
     volumes:
       - .:/app
-    environment:
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_NAME=auto_ria
+    env_file:
+      - .env
     command: >
       sh -c "alembic upgrade head &&
       python src/main.py"
+
+  
 
 volumes:
   postgres_data:
