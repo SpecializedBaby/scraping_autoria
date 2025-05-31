@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     # Scraper settings
     SCRAPE_TIME: str
     DUMP_TIME: str
+    POSTGRES_CONTAINER: str
 
     # Logging
     LOG_LEVEL: str
@@ -23,7 +24,7 @@ class Settings(BaseSettings):
     PAGES: int | bool
 
     class Config:
-        env_file = ".env.dev"
+        env_file = ".env"
         env_file_encoding = "utf-8"
         extra = "forbid"
 
