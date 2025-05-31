@@ -14,10 +14,14 @@ class Settings(BaseSettings):
     # Scraper settings
     SCRAPE_TIME: str
     DUMP_TIME: str
+    POSTGRES_CONTAINER: str
 
     # Logging
     LOG_LEVEL: str
     LOG_FILE: str
+
+    # Scraping
+    PAGES: int | bool
 
     class Config:
         env_file = ".env"

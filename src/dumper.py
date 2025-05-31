@@ -19,22 +19,20 @@ async def dump_database():
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         dump_file = dumps_dir / f"auto_ria_dump_{timestamp}.sql"
 
-        # Build pg_dump command
-        cmd = [
-            "pg_dump",
-            "-h", settings.DB_HOST,
-            "-p", str(settings.DB_PORT),
-            "-U", settings.DB_USER,
-            "-d", settings.DB_NAME,
-            "-f", str(dump_file)
-        ]
-
         # Set password in environment
         env = os.environ.copy()
         env["PGPASSWORD"] = settings.DB_PASSWORD
 
+        cmd = [
+            "docker", "exec", "-i", settings.POSTGRES_CONTAINER,
+            "pg_dump",
+            "-U", settings.DB_USER,
+            settings.DB_NAME
+        ]
+
         # Execute command
-        result = subprocess.run(cmd, env=env, capture_output=True, text=True)
+        with open(dump_file, "w") as f:
+            result = subprocess.run(cmd, env=env, stdout=f, stderr=subprocess.PIPE, text=True)
 
         if result.returncode != 0:
             logger.error(f"DB dump failed: {result.stderr}")

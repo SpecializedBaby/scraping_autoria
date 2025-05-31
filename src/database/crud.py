@@ -11,7 +11,7 @@ async def get_car_by_url(db: AsyncSession, url: str):
 
 async def create_car(db: AsyncSession, car_data: dict):
     db_car = Car(**car_data)
-    db.add(car_data)
+    db.add(db_car)
     await db.commit()
-    await db.refresh(car_data)
+    await db.refresh(db_car)
     return db_car
