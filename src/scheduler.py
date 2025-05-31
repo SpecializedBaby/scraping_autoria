@@ -19,9 +19,20 @@ class AutoRiaScheduler:
 
     async def run_scraper(self):
         """Execute the scraping task"""
+        headers = {
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/123.0.0.0 Safari/537.36"
+            ),
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.5",
+            "Referer": "https://google.com",
+        }
+
         logger.info("Starting scheduled scraping task")
         try:
-            async with httpx.AsyncClient(timeout=30.0) as client:
+            async with httpx.AsyncClient(headers=headers, http2=False, follow_redirects=True, timeout=30.0) as client:
                 scraper = AutoRiaScraper(client)
                 await scraper.scrape()
         except Exception as e:
