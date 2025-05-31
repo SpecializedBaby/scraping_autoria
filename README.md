@@ -1,80 +1,51 @@
-# AutoRia Car Scraper
+# 🚗 Auto RIA Scraper
 
-A Python application for scraping used car listings from AutoRia.com with PostgreSQL storage, scheduled tasks, and database backups.
+A fast and efficient asynchronous scraper for auto.ria.com, built with httpx, selectolax, and asyncio. Scraped data is stored in a PostgreSQL database running in Docker. Includes database dump functionality.
 
-## Features
+## 📦 Features
 
-- Daily scraping of AutoRia used car listings
-- Data storage in PostgreSQL
-- Automatic daily database dumps
-- Docker-compose deployment
-- Async scraping with httpx + selectolax
-- Alembic database migrations
-- Scheduled tasks with APScheduler
+- 🔍 Async scraping with robust error handlings
+- 🧠 Fast HTML parsing using ```selectolax```
+- 🐘 PostgreSQL integration via Docker
+- 💾 Database dump to local ```.sql``` file
+- 📄 Configurable via environment variables
+- 🧪 Easy to extend for new data types or pages
 
-## Prerequisites
+## ⚙️ Requirements
 
-- Docker
-- Python 3.11+
-- PostgreSQL client tools (for dumps)
+- Python 3.10+
+- Docker + Docker Compose
+- PostgreSQL client (```pg_dump``` inside container)
 
-## Installation
+## 🐳 Setup with Docker
 
-1. Clone the repository:
+1. Create a .env file from .env.example
+2. Run container:
 ```bash
-git clone https://github.com/yourusername/auto-ria-scraper.git
-cd auto-ria-scraper
-```
-
-2. Create and configure `.env` file:
-```bash
-cp .env.example .env
-```
-
-3. Build and start containers:
-```bash
-docker-compose up -d --build
-```
-
-## Usage
-
-### Normal Operation
-```bash
-docker-compose up -d
-```
-
-### Manual Scraping (for debugging)
-```bash
-docker-compose run --rm scraper python src/main.py
-```
-
-### Database Access
-```bash
-docker-compose exec db psql -U postgres -d auto_ria
-```
-
-### View Logs
-```bash
-docker-compose logs -f scraper
+docker-compose up --build
 ```
 
 ## Project Structure
 
 ```
-scraping_autoria/
-├── alembic/               # Database migrations
-├── dumps/                 # Database dump files
-├── src/
-│   ├── database/          # DB models and session
-│   ├── scraper/           # Scraping components
-│   ├── dumper.py          # DB backup utility
-│   ├── scheduler.py       # Task scheduling
-│   └── main.py            # Main application
-├── docker-compose.yml
-├── Dockerfile
-├── requirements.txt
-└── README.md
+src/
+  scraper/          # Scraper logic
+  database/         # SQLAlchemy models
+  logs/
+  main.py
+  dumper.py   
+  scheduler.py      # Scheduled scraping task
+  config.py         # Settings from env
+  utils/dump.py     # DB dump script
+dumps/              # Saved .sql dumps
+alembic/            # DB migrations
+....
 ```
+
+## 🧑‍💻 Author
+
+Dmytro
+https://github.com/SpecializedBaby
 
 ## License
 
