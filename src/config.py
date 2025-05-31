@@ -19,8 +19,11 @@ class Settings(BaseSettings):
     LOG_LEVEL: str
     LOG_FILE: str
 
+    # Scraping
+    PAGES: int | bool
+
     class Config:
-        env_file = ".env"
+        env_file = ".env.dev"
         env_file_encoding = "utf-8"
         extra = "forbid"
 

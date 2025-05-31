@@ -10,6 +10,8 @@ from selectolax.parser import HTMLParser
 
 from src.database.crud import get_car_by_url
 from src.scraper.utils import clean_odometer, clean_price, clean_phone_number
+from src.config import settings
+from src.database.session import async_session
 
 logger = logging.getLogger(__name__)
 
@@ -25,28 +27,29 @@ class AutoRiaScraper:
         """Start scraping from START_URL with pagination"""
         """https://auto.ria.com/car/used/?page=1"""
         page_num = 1
-        while True:
-            url = f"{self.START_URL}?page={page_num}"
-            logger.info(f"Scraping {url}")
+        async with async_session() as db:
+            while page_num <= settings.PAGES:
+                url = f"{self.START_URL}?page={page_num}"
+                logger.info(f"Scraping {url}")
 
-            """Try to get list of cars """
-            try:
-                cars = await self.get_cars_from_page(url)
-                if not cars:
-                    logger.info("No more cars. Script STOP.")
+                """Try to get list of cars """
+                try:
+                    cars = await self.get_cars_from_page(url=url)
+                    if not cars:
+                        logger.info("No more cars. Script STOP.")
+                        break
+
+                    for car_url in cars:
+                        if await get_car_by_url(db=db, url=car_url):
+                            logger.debug(f"Skip duplicate car {car_url}")
+                            continue
+
+                    page_num += 1
+                    await asyncio.sleep(1)
+
+                except Exception as e:
+                    logger.error(f"Error scraping page {page_num}: {str(e)}")
                     break
-
-                for car_url in cars:
-                    if await get_car_by_url(car_url):
-                        logger.debug(f"Skip duplicate car {car_url}")
-                        continue
-
-                page_num += 1
-                await asyncio.sleep(1)
-
-            except Exception as e:
-                logger.error(f"Error scraping page {page_num}: {str(e)}")
-                break
 
     async def get_cars_from_page(self, url: str) -> List[str]:
         """Parsing cars from the url"""

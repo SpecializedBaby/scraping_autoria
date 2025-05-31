@@ -47,7 +47,10 @@ async def main():
         scheduler = AutoRiaScheduler()
         scheduler.scrape_time = settings.SCRAPE_TIME
         scheduler.dump_time = settings.DUMP_TIME
-        scheduler.start()
+        # scheduler.start()
+
+        # 4. Start scrap direct
+        await scheduler.run_scraper()
 
         # Keep application running
         while True:
