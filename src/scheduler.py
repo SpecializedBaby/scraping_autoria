@@ -14,10 +14,11 @@ logger = logging.getLogger(__name__)
 class AutoRiaScheduler:
     def __init__(self):
         self.scheduler = AsyncIOScheduler()
-        self.scrape_time = "12:00"  # Default from config
-        self.dump_time = "12:30"  # Default from config
+        self.scrape_time = "00:00"
+        self.dump_time = "00:30"
 
-    async def run_scraper(self):
+    @staticmethod
+    async def run_scraper():
         """Execute the scraping task"""
         headers = {
             "User-Agent": (
@@ -39,7 +40,8 @@ class AutoRiaScheduler:
             logger.error(f"Scraping failed: {str(e)}")
         logger.info("Finished scraping task")
 
-    async def run_dump(self):
+    @staticmethod
+    async def run_dump():
         """Execute the database dump task"""
         logger.info("Starting scheduled database dump")
         try:
